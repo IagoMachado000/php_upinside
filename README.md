@@ -94,10 +94,10 @@ Repositório com o conteúdo do curso de php da UpInside
 
     - O corpo de qualquer estrutura **DEVE** estar entre chaves
 
-    - ```php
-        if ($variable) {
-            // código
-        } else {
-            // código
-        }
+    ```php
+    if ($variable) {
+        // código
+    } else {
+        // código
+    }
     ```
