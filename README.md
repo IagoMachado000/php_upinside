@@ -1,4 +1,4 @@
-# php_upinside
+# Curso php UpInside
 Repositório com o conteúdo do curso de php da UpInside
 
 ## Guia de codificação - PSR's
@@ -101,3 +101,108 @@ Repositório com o conteúdo do curso de php da UpInside
         // código
     }
     ```
+
+- **Closures**
+    - **DEVEM** ser declaradas com um espaço depois de function e um espaço antes e depois de use
+
+    - A chave de abertura **DEVE** ir na mesma linha do nome, a chave de fechamento **DEVE** ir uma linha após o corpo
+
+    - **NÃO DEVE** haver espaço após o parêntese de abertura ou antes do parêntese de fechamento na lista de argumentos ou variáveis
+
+    - **DEVE** haver na lista de  argumentos ou variáveis um espaço depois da vírgula mas nunca antes
+
+    - Argumentos com valor padrão **DEVEM** ir ao final da lista de argumentos
+
+- **PSR-4 Carregamento Automático**
+    - Este PSR descreve uma especificação para o carregamento automático e interoperável das classes, assim como mostra onde colocar os arquivos em seu projeto
+
+    - **Especificação**
+        - Entenda classes como todas as classes, interfaces e traits
+
+        1. Um nome de classe totalmente qualificado deve seguir o seguinte formato
+            a. `\<VendorNamespace>(\<SubNamespace>)*<ClassName>`
+
+            b. O namespace completo **DEVE** ter um nome de nível superior (Vendor)
+
+            c. O namespace **PODE** ter um ou mais sub-namespaces
+
+            d. O namespace **DEVE** terminar com no nome da classe
+
+            e. Underscore não tem qualquer efeito especial no namespace
+
+            f. Caracteres alfabéticos **PODEM** ter qualquer combinação de minúscula e maiúscula
+
+            g. Todos os namespaces **DEVEM** ser referenciados de forma única
+
+            h. O Vendor namespace e alguns dos primeiros níveis de sub-namespace **DEVEM** corresponder a um diretório base
+
+            i. Cada sub-namespace seguinte deve corresponder a um sub-diretório dentro do diretório base, cada separador de sub-namespace corresponde a um separador de diretório no sistema operacional
+
+        2. Implementações de autoload **NÃO DEVEM** lançar exceções, gerar erros de qualquer nível ou retornar um valor
+
+- **IDE**
+    - **Linhas**
+        - Procure manter suas linhas com no máximo 80 caracteres, quando necessário você poderá usar até 120
+
+    - **Espaços finais**
+        - Certifica-se que o último caractere da linha não é um espaço em branco
+
+    - **Recuo**
+        - Use 4 espaços para indentar seu código, nunca o TAB
+
+    - **`true`, `false`, `null`**
+        - São palavras-chave do tipo reservado do PHP, devem ser escritas sempre em letra minúscula usando a versão curta.
+
+        - Use `bool` e não `boolean`, `int` e não `integer`
+
+    - A chave de abertura da classe **DEVE** seguir na próxima linha após o nome e a chave de fechamento **DEVE** seguir na próxima linha após o corpo
+
+    - A lista de argumentos também podem ser declaradas na próxima linha. Quando isso ocorrer cada argumento assim como os parênteses **DEVEM** estar em uma linha subsequente e você deve adicionar um recuo para todos
+
+## Comandos de saída - Comandos para imprimir valores para o usuário
+
+- **`echo`**
+    - É uma construção da linguagem usada para exibir dados e não possui nenhum valor de retorno
+
+    - Pode ser usado para imprimir mais de um valor, separados por vírgula e mesclar html e php
+
+    - Podemos passar variáveis e expressões. Contudo, para que essas sejam lidas da forma correta, devemos usar aspas duplas. Com aspas simples elas serão convertidas para string e não executadas
+
+    ```php
+    <?php
+        $nome = 'Fulano';
+        $idade = 25;
+        $num1 = 10;
+        $num2 = 20;
+
+        echo "Nome: ", $nome, " | Idade: ", $idade;
+        echo "<p>Nome: $nome</p>";
+        echo "A soma entre $num1 e $num2 é igual a ", ($num1 + $num2);
+    >
+    ```
+
+    - **`echo`** tem uma forma resumida de escrita muito útil para exibir expressões simples ou variáveis diretamente no html, tornando o código mais limpo e legível
+        ```
+        <p><?= $mensagem; ?></p>
+        <p><?= "A soma é: ", ($num1 + $num2); ?></p>
+        ```
+    - É importante notar que o shorthand `<?= ?>` é específico para a impressão de valores na saída e não pode ser usado para executar blocos de código mais complexos. Para tarefas mais avançadas ou estruturas de controle, a forma completa com `echo` ou outros construtores pode ser necessária.
+
+- **`print`**
+    - É uma construção da linguagem mais antiga e menos usada que o `echo`
+
+    - Retorna o valor 1. A saída será o que foi passado, mas podemos atribuir o `print` a uma variável e usar em expressões, como a condicional
+        ```php
+        <?php
+        print "Olá, mundo"; // Imprime Olá , mundo
+
+        $resultado = print "Olá, mundo";
+        echo $resultado; // Isso imprime 1
+
+        $status = ($condicao) ? print 'verdadeiro' : print 'falso';
+        >
+        ```
+
+    - Não suporta a impressão de múltiplos valores separados por vírgula
+
+- **`print_r`**
