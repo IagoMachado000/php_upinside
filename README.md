@@ -206,3 +206,131 @@ Repositório com o conteúdo do curso de php da UpInside
     - Não suporta a impressão de múltiplos valores separados por vírgula
 
 - **`print_r`**
+    - É usado para exibir informações sobre uma variável de forma mais legível para humanos
+
+    - A saída dos dados é formatada para facilitar a compreensão da estrutura da variável
+
+    - Mostrará propriedades protegidas e privadas de objetos. Os membros da classe estática não serão mostrados
+
+    - String, int ou float terão o valor impresso. Array e objetos serão apresentados em formato de chave e valor
+
+    ```php
+    <?php
+    $frutas = array('maçã', 'banana', 'laranja');
+    print_r($frutas)
+
+    // Saída
+    Array
+    (
+        [0] => maçã
+        [1] => banana
+        [2] => laranja
+    )
+    ?>
+    ```
+
+- **`printf`**
+    - É usada para imprimir uma string formatada, onde marcadores de posição são substituídos pelos valores fornecidos.
+
+    - Oferece controle sobre a formatação, permitindo especificar o número de casas decimais, a largura do campo e outros detalhes de formatação.
+
+    - Retorna o número de caracteres que foram impressos
+
+    ```php
+    // %s é um marcador para string e %d para int
+    // Existem diversos marcadores para outros tipos de dados e formatação
+
+    <?php
+    $nome = "João";
+    $idade = 30;
+    printf("Nome: %s, Idade: %d", $nome, $idade);
+
+    $produto = "Notebook";
+    $preco = 1200.50;
+    printf("Produto: %s, Preço: %.2f", $produto, $preco);
+
+    $numero = 42;
+    printf("Número: %05d", $numero);
+    ?>
+
+    $caracteres_impressos = printf("Olá, %s!", "Mundo");
+    echo "\nNúmero de caracteres impressos: $caracteres_impressos";
+    ```
+
+    - A função `printf` é útil quando você precisa de mais controle sobre a formatação da saída, mas é importante usá-la com cuidado para evitar vulnerabilidades de segurança, como a Injeção de Formato.
+
+- **`vprintf`**
+    - Assim como `printf`, `vprintf` é usada para imprimir uma string formatada, onde marcadores de posição são substituídos pelos valores fornecidos. A diferença está no fato de que vprintf aceita um array como argumento para os valores.
+
+    ```php
+    <?php
+    $valores = array("João", 30);
+    vprintf("Nome: %s, Idade: %d", $valores);
+    ?>
+    ```
+
+    - A principal diferença entre `printf` e `vprintf` é que a última aceita um array como argumento para os valores, o que pode ser útil quando você tem muitos valores para formatar e deseja organizá-los em um array. Isso pode tornar o código mais limpo e modular em certas situações.
+
+- **`var_dump`**
+    - É uma ferramenta poderosa de depuração que exibe informações detalhadas sobre uma ou mais variáveis, incluindo o tipo e o valor, bem como o número de elementos em arrays e objetos
+
+    - Todas as propriedades públicas, privadas e protegidas dos objetos serão retornadas na saída, a menos que o objeto implemente um método `__debugInfo()`
+
+    ```php
+    <?php
+    $nome = "João";
+    $idade = 30;
+    var_dump($nome, $idade);
+
+    // Saída
+    string(4) "João"
+    int(30)
+    ?>
+    ```
+
+    - `var_dump` pode ser usado diretamente em expressões ou variáveis, sem a necessidade de atribuição.
+
+## Variáveis
+
+- **Básico**
+    - São representadas por um $ seguido no nome da variável. É case sensitive e um nome válido por começar apenas com letras ou underscore seguidos de qualquer letra, número ou underscore
+
+    - Variáveis por padrão tem um valor atribuído. Dessa forma, se atribuirmos o valor de uma variável para outra, a alteração de uma dessas variáveis não afetará a outra
+
+    ```php
+    <?php
+    $a = 1;
+    $b = $a
+    $a = 2;
+
+    echo $a //2
+    echo $b //1
+    ?>
+    ```
+
+    - Na **atribuição por referência** a nova variável simplesmente referência (em outras palavras, torna-se um apelido para ou aponta para) a variável original. **Alterações na nova variável afetam a original,e vice-versa**
+
+    - Para atribuir por referência, simplesmente adicione um e-comercial & na frente do nome da variável que estiver sendo atribuída e somente variáveis nomeadas podem ser atribuídas por referência
+
+    ```php
+    <?php
+    $foo = 'Bob';
+    $bar = &$foo;
+
+    echo $foo; //Bob
+    echo $bar //Bob
+
+    $age = 25;
+    $newAge = &$age;
+    $otherage = &(25 + 5); //Inválido; referencia uma expressão sem nome
+
+    function test()
+    {
+        return 25;
+    }
+
+    $newOtherAge = &test(); //Inválido
+    ?>
+    ```
+
+- **Variáveis Predefinidas** 
