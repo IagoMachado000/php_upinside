@@ -334,3 +334,198 @@ Repositório com o conteúdo do curso de php da UpInside
     ```
 
 - **Variáveis Predefinidas** 
+    - São variáveis superglobais que fornecem informações sobre o ambiente de execução, como dados do servidor web, informações sobre a requisição HTTP, informações de sessão, entre outros. E estão sempre disponíveis independente do escopo
+
+    - Algumas dessas são `$_GET, $_POST, $_REQUEST, $_SERVER, $GLOBALS`
+
+- **Escopo de variáveis**
+    - É o contexto no qual uma variável é definido e na maioria das vezes, uma variável tem apenas um escopo
+
+    - **Escopo global**
+        - Variáveis definidas fora de funções têm um escopo global, o que significa que podem ser acessadas em qualquer lugar do script.
+
+        ```php
+            <?php
+            $num = 1; // Variável com escopo global
+            ?>
+        ```
+
+    - **Escopo local**
+        - Quando declaramos uma variável dentro de uma função, ela tem um escopo local, o que significa que só pode ser acessada dentro dessa função.
+
+        ```php
+            <?php
+            function exemploEscopoLocal()
+            {
+                $variavelLocal = "Esta é uma variável local";
+                echo $variavelLocal;
+            }
+
+            exemploEscopoLocal();  // A variável só é acessível dentro da função
+            echo $variavelLocal; // Inválido; a variável $variavelLocal tem escopo local
+            ?>
+        ```
+
+    - **Palavra-chave `global`**
+        - É usada para acessar variáveis fora do escopo local de uma função
+
+        ```php
+            <?php
+            // Só é possível para a função acessar a variável $num1 por causa da palavra-chave global
+            $num1 = 2
+            function sum()
+            {
+                global $num1;
+                $num2 = 5
+                $total = $num1 + $num2;
+                echo $total;
+            }
+            sum()
+            ?>
+        ```
+
+        - Também podemos acessar variáveis globais com o array especial $GLOBAL onde o nome da variável global é a chave e o conteúdo, o valor
+
+        ```php
+            <?php
+            // Só é possível para a função acessar a variável $num1 por causa da palavra-chave global
+            $a = 1;
+            $b = 2;
+            function sum()
+            {
+                $GLOBALS['b'] = $GLOBALS['a'] + $GLOBALS['b'];
+            }
+            sum();
+            echo $b;
+            ?>
+        ```
+
+- **Variáveis estáticas**
+    - **Existem apenas no escopo de uma função local**, mas não perde seu valor quando a execução do programa sai desse escopo
+
+    - Variáveis estáticas podem receber valores que são o resultado de expressões constantes, mas expressões dinâmicas, como chamadas de função, causarão um erro de análise.
+
+    ```php
+        <?php
+        //Esta função é totalmente inútil, pois toda vez que é chamada, ela define $a = 0 e imprime 0. O $a ++ que incrementa a variável não serve para nada, pois assim que a função sai, a variável $a desaparece
+        function test()
+        {
+            $a = 0;
+            echo $a;
+            $a++;
+        }
+
+        //Agora, $a é inicializado apenas na primeira chamada da função e toda vez que a função test2() é chamada ela imprimirá o valor de $a e o incrementará.
+        function test2()
+        {
+            static $a = 0;
+            echo $a;
+            $a++;
+        }
+        ?>
+    ```
+
+    - Variáveis estáticas também fornecem uma maneira de lidar com funções recursivas. Uma função recursiva é aquela que chama a si mesma. Deve-se ter cuidado ao escrever uma função recursiva porque é possível torná-la recursiva indefinidamente. Você deve ter certeza de ter uma maneira adequada de encerrar a recursão.
+
+    ```php
+        function test()
+        {
+            static $count = 0;
+
+            $count++;
+            echo $count;
+            if ($count < 10) {
+                test();
+            }
+            $count--;
+        }
+    ```
+
+## Tipos de dados
+
+- Para verificar o valor e o tipo de uma expressão, podemos usar o `var_dump()` . Para recuperar o tipo de uma expressão, devemos usar a função `get_debug_type()`. No entanto, para verificar se uma expressão é de um determinado tipo, usamos as funções `is_type` (is_string, is_int, …)
+
+- Tipos
+    - **null**
+        - É o tipo unitário do PHP, ou seja, possui apenas um valor: `null`
+
+        - Variáveis indefinidas e `unset()` resolverão para o valor `null`
+
+    - **bool**
+        - Possui apenas dois valores e é usada para expressar um valor verdadeiro
+
+        - Pode ser `true` ou `false`
+
+        - Valores considerados **false**
+            - `false` - o próprio false
+
+            - `0` - zero inteiro
+
+            - `0.0` e `-0.0` - zero float
+
+            - `“”` ou `“0”` - string vazia ou string com zero
+
+            - `[]` - array vazia
+
+            - `null` - o tipo especial null
+            
+        - Todos os outros valores são considerados **true** incluindo `resource` e `NaN`
+
+    - **int**
+        - É um número do conjunto Z = {…, -2, -1, 0, 1, 2, …}
+
+        - Pode ser especificado em notação decimal (base 10), hexadecimal (base 16), octal (base 8) ou binária (base 2)
+
+        - Notações
+            - **Octal** - preceder o número com um `0` e a partir do php 8.1.0, a notação octal também pode ser precedida por 0o ou 0O
+
+            - **Hexadecimal** - preceder o número com `0x`
+
+            - **Binária** - preceder o número com `0b`
+
+            ```php
+                <?php
+                $a = 1234; // número decimal
+                $a = 0123; // número octal (equivalente a 83 em decimal)
+                $a = 0o123; // número octal (a partir do PHP 8.1.0)
+                $a = 0x1A; // número hexadecimal (equivalente a 26 em decimal)
+                $a = 0b11111111; // número binário (equivalente ao 255 decimal)
+                $a = 1_234_567; // número decimal (a partir do PHP 7.4.0)
+                ?>
+            ```
+
+    - **float**
+        - Números de ponto flutuante (também conhecidos como floats, doubles ou números reais) podem ser especificados utilizando qualquer uma das seguintes sintaxe
+
+        ```php
+            <?php
+            $a = 1.234;
+            $b = 1.2e3;
+            $c = 7E-10;
+            $d = 1_234.567; // a partir do PHP 7.4.0
+            ?>
+        ```
+
+        - **Tem precisão limitada**
+
+        - Além disso, números racionais que têm representação exata em números em base 10, como `0.1 ou 0.7`, não possuem representação exata em ponto flutuante na base 2, Portanto não existe conversão para o formato interno sem uma pequena perda de precisão. Isso pode ocasionar resultados confusos: por exemplo, `floor((0.1+0.7)*10)` normalmente retornará `7`, em vez do resultado esperado `8`, porque a representação interna final será algo como `7.9999999999999991118...`
+
+        - Comparando **floats**
+            - Testar números de ponto flutuante com igualdade é problemático, por causa da maneira como são representados internamente. Contudo, podemos contornar esse limitação usando o **“valor de erro máximo”** que é chamado de **epsilon ou unidade de erro**, e deve ser a diferença mínima aceitável no resultado dos cálculos
+
+            ```php
+                <?php
+                // $a e $b serão considerados iguais até o quinto dígito de precisão
+
+                $a = 1.23456789;
+                $b = 1.23456780;
+                $epsilon = 0.00001;
+
+                if(abs($a-$b) < $epsilon) {
+                    echo "iguais";
+                }
+                >
+            ```
+
+    - **string**
+        - 
