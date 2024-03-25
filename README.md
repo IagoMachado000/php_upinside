@@ -528,4 +528,307 @@ Repositório com o conteúdo do curso de php da UpInside
             ```
 
     - **string**
-        - 
+        - É uma série de caracteres onde cada um é o mesmo de 1 byte
+
+        - Podemos declarar um string literal de 4 formas:
+            - **Aspas simples**
+                - Para especificar um apóstrofo, escape-o com uma contra barra (\). Para especificar uma contra barra literal, duplique-a (\\). Todas as outras ocorrências de contra barra serão tratadas como uma contra barra literal. Isso significa que sequências de escape como, \n e \r serão literalmente impressas
+
+            - Variáveis serão literalmente impressas também, quando dentro de aspas simples
+
+            ```php
+                <?php
+                $hello = 'Olá, mundo';
+                ?>
+            ```
+
+        - **Aspas duplas**
+            - A vantagem de usar aspas duplas para escrita de string é que sequências de escape serão interpretadas com o seu real significado, e não impressas literalmente.
+
+            - Nomes de variáveis serão expandidos, ou seja, serão interpretados com seus valores reais
+
+            ```php
+                <?php
+                $hello = "Olá, mundo";
+                ?>
+            ```
+
+        - **Sintaxe heredoc**
+            - A sintaxe heredoc permite que você crie uma string multilinha e inclua variáveis dentro dela. Ela é definida usando <<< seguido por um identificador (pode ser qualquer palavra, mas não deve conter aspas), e a string é encerrada com o mesmo identificador na própria linha, sem espaços à frente.
+
+            ```php
+                <?php
+                $variavel = "Mundo";
+                $string = <<<EOD
+                    Olá $variavel!
+                    Esta é uma string heredoc.
+                EOD;
+                ?>
+            ```
+
+        - **Sintaxe nowdoc**
+            - A sintaxe nowdoc é semelhante à heredoc, mas trata todo o conteúdo como texto literal, sem interpolação de variáveis. É definida usando `<<<'IDENTIFICADOR'` (com as aspas simples), e a string é encerrada com o mesmo identificador na própria linha, sem espaços à frente.
+
+            ```php
+                <?php
+                $variavel = "Mundo";
+                $string = <<<'EOD'
+                    Olá $variavel!
+                    Esta é uma string nowdoc.
+                EOD;
+                ?>
+            ```
+
+        - **Interpolação de variáveis**
+            - Quando uma variável é especificada dentro de aspas duplas ou heredoc, a variável é interpretada
+
+            - Há 2 tipos de sintaxe:
+                - **Simples**
+                    - Se um sinal de cifrão (`$`) for encontrado, o interpretador tentará obter tantos identificadores quantos forem possíveis para formar um nome de variável válido. Envolva o nome da variável com chaves para especificar explicitamente o fim do nome.
+
+                    ```php
+                        <?php
+                        $suco = "maçã";
+
+                        echo "Ele bebeu um pouco de suco de $suco.";
+
+                        // Erro, porque "s" é um caracter válido para um nome de variável, procura $sucos em vez de $suco
+                        echo "Ele bebeu um suco feito de $sucos.";
+
+                        // Especificar explicitamente o nome da variável, delimitando com chaves.
+                        echo "Ele bebeu um pouco de suco feito de ${suco}s.";
+                        ?>
+                    ```
+
+                - **Complexa**
+                    - Isto não é chamado sintaxe complexa porque a sintaxe é complexa, mas sim porque permite a utilização de expressões complexas.
+
+                    - Qualquer variável escalar, elemento de um array ou propriedade de um objeto com uma representação de uma string pode ser incluída com essa sintaxe. A expressão é escrita da mesma forma como apareceria fora da string e então coloque-o entre `{}`
+
+                    ```php
+                        <?php
+                        $great = 'fantástico';
+                        echo "Isso é {$great}";
+                        ?>
+                    ```
+    
+    - **Array**
+        - É uma estrutura de dados que pode armazenar múltiplos valores sob um único nome de variável. Arrays em PHP podem conter uma mistura de valores numéricos, strings e outros tipos de dados, tornando-os extremamente versáteis e úteis para lidar com conjuntos de dados.
+
+        - Especificando um array
+            - **Construtor array()**
+                - `<?php $lista = array(1, 2, 3); ?>`
+
+            - **Notação simples**
+                - `<?php $lista = [1, 2, 3]; ?>`
+
+            - **Array associativo**
+                ```php
+                    <?php
+                    $lista = array("João" => 25, "Maria" => 30, "Pedro" => 35);
+                    $lista = ["João" => 25, "Maria" => 30, "Pedro" => 35];
+                    ?>
+                ```
+
+            - **Array multidimensional**
+                ```php
+                    <?php
+                    $lista = [
+                        ["João", 20, "Masculino"],
+                        ["Maria", 22, "Feminino"],
+                        ["Pedro", 21, "Masculino"]
+                    ]
+                    ?>
+                ```
+
+            - **Acessando elementos de um array**
+                - Elementos do array podem ser acessados utilizando a sintaxe array[chave]
+
+                ```php
+                    <?php
+                    echo $num[0]; // Saída: 10 | array simples
+                    echo $age["Maria"]; // Saída: 30 | array associativo
+                    echo $alunos[0][0]; // Saída: João | array multidimensional
+                    ?>
+                ```
+
+            - **Adicionando elementos a um array**
+                - Podemos modificar um array existente explicitamente assimilando valores a ele.
+
+                ```php
+                    <?php
+                    // Operador de atribuição
+                    $lista = [1, 2, 3];
+                    $lista[] = 4
+
+                    // Função array_push() - adiciona um ou mais elementos ao final do array
+                    array_push($lista, 5);
+
+                    // Índice específico
+                    $lista[5] = 6;
+
+                    // Adicionar chaves associativas
+                    $lista["Pedro"] = 7;
+
+                    // Adicionando múltiplos elementos com array_merge
+                    $lista2 = [8, 9, 10];
+                    $lista3 = array_merge($lista, $lista2);
+
+                    // Expandindo um array com o operador ... | o spread operator tem vantagem performática em relação a função array_merge
+                    $lista4 = [11, 12, 13];
+                    $lista5 = [...$lista3, ...$lista4];
+                    ?>
+                ```
+
+            - **Desconstruindo um array**
+                - Arrays podem ser desconstruídos utilizando `[]` ou `list()`
+
+                - Desconstruir um array se refere a atribuir seus valores a variáveis individuais de forma rápida e conveniente. A desconstrução de arrays é frequentemente usada quando se trabalha com funções que retornam arrays ou quando se precisa acessar rapidamente os elementos de um array.
+
+                ```php
+                    <?php
+                    // list()
+                    list($var1, $var2, ...) = $array;
+
+                    // []
+                    [$var1, $var2, ...] = $array;
+
+                    // Exemplo simples com list()
+                    $dados = array("João", "Maria", "Pedro");
+                    list($nome1, $nome2, $nome3) = $dados;
+
+                    echo $nome1; // Saída: João
+                    echo $nome2; // Saída: Maria
+                    echo $nome3; // Saída: Pedro
+
+                    // Exemplo simples com []
+                    $dados = array("João", "Maria", "Pedro");
+                    [$nome1, $nome2, $nome3] = $dados;
+
+                    echo $nome1; // Saída: João
+                    echo $nome2; // Saída: Maria
+                    echo $nome3; // Saída: Pedro
+                    ?>
+                ```
+
+            - **Comparando arrays**
+                - Existem várias formas de comparar array, mas algumas das mais comuns são as seguintes:
+                    - **Comparação de igualdade**
+                        - Podemos usar o operador de comparação `==` para verificar se dois arrays são iguais em termos de conteúdo e ordenação.
+
+                        ```php
+                            <?php
+                            // Neste caso, a saída será "Os arrays são iguais." porque ambos contêm os mesmos elementos na mesma ordem.
+
+                            $array1 = [1, 2, 3];
+                            $array2 = [1, 2, 3];
+
+                            if ($array1 == $array2) {
+                                echo "Os arrays são iguais.";
+                            } else {
+                                echo "Os arrays são diferentes.";
+                            }
+                            ?>
+                        ```
+
+                    - **Comparação de identidade**
+                        - Se quisermos verificar se dois arrays são exatamente os mesmos (ou seja, referem-se ao mesmo objeto na memória), podemos usar o operador de comparação `===`.
+
+                        ```php
+                            <?php
+                            // Neste caso, a saída seria "Os arrays são idênticos." porque mesmo que sejam duas variáveis diferentes, seu conteúdo é igual, e assim, ambas as variáveis ocupam o mesmo lugar em memória.
+
+                            // A comparação de identidade verifica se as variáveis referenciam o mesmo local na memória
+
+                            $array1 = [1, 2, 3];
+                            $array2 = [1, 2, 3];
+
+                            if ($array1 === $array2) {
+                                echo "Os arrays são iguais.";
+                            } else {
+                                echo "Os arrays são diferentes.";
+                            }
+                            ?>
+                        ```
+
+                    - **Comparação de diferença**
+                        - Podemos comparar se dois arrays são diferentes usando o operador de comparação `!=` ou `!==`.
+
+                        ```php
+                            <?php
+                            // Neste caso, a saída seria "Os arrays são diferentes." porque os elementos dos arrays são diferentes.
+
+                            $array1 = [1, 2, 3];
+                            $array2 = [4, 5, 6];
+
+                            if ($array1 != $array2) {
+                                echo "Os arrays são diferentes.";
+                            } else {
+                                echo "Os arrays são iguais.";
+                            }
+                            ?>
+                        ```
+
+                    - **Função `array_dif()`**
+                        - Se quisermos encontrar elementos que estão presentes em um array e ausentes em outro, podemos usar a função `array_diff()`.
+
+                        ```php
+                            <?php
+                            // Neste caso, $diferenca conterá os elementos que estão presentes em $array1 e ausentes em $array2.
+
+                            $array1 = [1, 2, 3];
+                            $array2 = [3, 4, 5];
+
+                            $diferenca = array_diff($array1, $array2);
+
+                            print_r($diferenca); // Saída: Array ( [0] => 1 [1] => 2 )
+                            ?>
+                        ```
+
+                    - **Spread Operator**
+                        - Esse operador serve para copiar elementos de um array para outro ou passar múltiplos argumentos para uma função que espera uma lista de argumentos
+
+                        - **Expandindo arrays em outro array**
+                            ```php
+                                <?php
+                                // Neste caso, $array2 contém todos os elementos de $array1, seguidos pelos elementos adicionais 4, 5 e 6. Isso é útil para adicionar elementos de um array a outro de forma rápida e concisa.
+
+                                $array1 = [1, 2, 3];
+                                $array2 = [...$array1, 4, 5, 6];
+
+                                print_r($array2); // Saída: Array ( [0] => 1 [1] => 2 [2] => 3 [3] => 4 [4] => 5 [5] => 6 )
+                                ?>
+                            ```
+
+                        - **Passando múltiplos argumentos para uma função**
+                            ```php
+                                <?php
+                                // Neste caso, $argumentos é um array que contém os argumentos que serão passados para a função soma(). O operador ... permite que esses argumentos sejam passados como argumentos separados para a função.
+
+                                function soma($a, $b, $c) {
+                                    return $a + $b + $c;
+                                }
+
+                                $argumentos = [2, 3, 4];
+                                $resultado = soma(...$argumentos);
+
+                                echo $resultado; // Saída: 9
+                                ?>
+                            ```
+
+                        - **Expandindo array associativo**
+                            ```php
+                                <?php
+                                // Neste exemplo, os arrays associativos $array1 e $array2 são combinados em um único array $resultado, preservando as chaves associativas.
+
+                                $array1 = ["a" => 1, "b" => 2];
+                                $array2 = ["c" => 3, "d" => 4];
+
+                                $resultado = [...$array1, ...$array2];
+
+                                print_r($resultado); // Saída: Array ( [a] => 1 [b] => 2 [c] => 3 [d] => 4 )
+                                ?>
+                            ```
+
+    - **Objetos**
+        -   
