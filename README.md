@@ -178,7 +178,7 @@ Repositório com o conteúdo do curso de php da UpInside
         echo "Nome: ", $nome, " | Idade: ", $idade;
         echo "<p>Nome: $nome</p>";
         echo "A soma entre $num1 e $num2 é igual a ", ($num1 + $num2);
-    >
+    ?>
     ```
 
     - **`echo`** tem uma forma resumida de escrita muito útil para exibir expressões simples ou variáveis diretamente no html, tornando o código mais limpo e legível
@@ -200,7 +200,7 @@ Repositório com o conteúdo do curso de php da UpInside
         echo $resultado; // Isso imprime 1
 
         $status = ($condicao) ? print 'verdadeiro' : print 'falso';
-        >
+        ?>
         ```
 
     - Não suporta a impressão de múltiplos valores separados por vírgula
