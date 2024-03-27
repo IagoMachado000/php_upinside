@@ -831,4 +831,119 @@ Repositório com o conteúdo do curso de php da UpInside
                             ```
 
     - **Objetos**
-        -   
+        - Um objeto é uma instância de uma classe. Uma classe é uma estrutura que define o comportamento e as propriedades de um tipo de objeto
+
+        - Características e conceitos relacionados a objetos:
+            - **Propriedades**
+                - As propriedades de um objeto são as variáveis associadas a ele. Elas representam os dados ou características que o objeto possui. As propriedades são definidas dentro da classe usando a palavra-chave `public`, `private` ou `protected`, dependendo do nível de visibilidade desejado.
+
+                ```php
+                    <?php
+                    class Pessoa {
+                        public $nome;
+                        private $idade;
+                        protected $email;
+                    }
+                    ?>
+                ```
+
+            - **Métodos**
+                - Os métodos de um objeto são as funções associadas a ele. Eles representam o comportamento ou as ações que o objeto pode realizar. Assim como as propriedades, os métodos são definidos dentro da classe.
+
+                ```php
+                    <?php
+                    class Pessoa {
+                        public function mostrarNome() {
+                            return $this->nome;
+                        }
+                    }
+                    ?>
+                ```
+
+            - **Criando novo Objeto**
+                - Para criar um objeto a partir de uma classe, é necessário realizar o processo de instanciação. Isso é feito usando a palavra-chave `new`
+
+                ```php
+                    <?php
+                    $pessoa = new Pessoa();
+                    ?>
+                ```
+
+            - **Acessando propriedades e métodos**
+                - Podemos acessar as propriedades e métodos de um objeto usando a notação de seta (`->`).
+
+                ```php
+                    <?php
+                    $pessoa->nome = "João"; // Acessando propriedade
+                    echo $pessoa->mostrarNome(); // Acessando método
+                    ?>
+                ```
+
+            - **Construtor e destrutor**
+                - **Construtores (Constructors)**
+                    - Um construtor é um método especial que é chamado automaticamente quando um objeto é instanciado a partir de uma classe. Ele é usado para inicializar as propriedades do objeto ou executar outras tarefas de inicialização necessárias antes de usar o objeto.
+
+                    - Em PHP, o construtor é definido pelo método `__construct()`
+
+                    ```php
+                        <?php
+                        class Carro {
+                            public $marca;
+                            public $modelo;
+
+                            public function __construct($marca, $modelo) {
+                                $this->marca = $marca;
+                                $this->modelo = $modelo;
+                                echo "Um novo carro foi criado: $marca $modelo\n";
+                            }
+                        }
+
+                        // No exemplo acima, o construtor __construct() recebe dois parâmetros $marca e $modelo e os usa para inicializar as propriedades do objeto. Quando um objeto é instanciado a partir dessa classe, o construtor é automaticamente chamado com os argumentos fornecidos.
+
+                        $carro1 = new Carro("Toyota", "Corolla");
+                        // Saída: Um novo carro foi criado: Toyota Corolla
+
+                        $carro2 = new Carro("Honda", "Civic");
+                        // Saída: Um novo carro foi criado: Honda Civic
+                        ?>
+                    ```
+
+                - **Destrutores (Destructors)**
+                    - Um destrutor é um método especial que é automaticamente chamado quando um objeto é destruído ou quando o script termina sua execução. Ele é usado para realizar tarefas de limpeza, como liberar recursos ou fechar conexões de banco de dados, associadas ao objeto antes que ele seja destruído.
+
+                    - Em PHP, o destrutor é definido pelo método `__destruct()`
+
+                    ```php
+                        <?php
+                        class Carro {
+                            public function __destruct() {
+                                echo "O carro foi destruído.\n";
+                            }
+                        }
+
+                        // No exemplo acima, quando um objeto da classe Carro é destruído (por exemplo, quando não há mais referências a ele no script), o método __destruct() é automaticamente chamado.
+
+                        $carro = new Carro();
+                        unset($carro); // Chama o destrutor implicitamente
+                        // Saída: O carro foi destruído.
+                        ?>
+                    ```
+
+                    - É importante observar que, em PHP, o destrutor é chamado automaticamente quando não há mais referências a um objeto ou quando o script termina sua execução. Não é necessário chamar explicitamente o destrutor como em outras linguagens de programação. O exemplo acima usando `unset()` é apenas para fins de demonstração.
+
+            - **Herança**
+                - A herança é um conceito importante na POO que permite que uma classe herde propriedades e métodos de outra classe. Isso promove a reutilização de código e a organização hierárquica de classes.
+
+                ```php
+                    <?php
+                    class Aluno extends Pessoa {
+                        // Aluno herda todas as propriedades e métodos de Pessoa
+                    }
+                    ?>
+                ```
+
+            - **Encapsulamento**
+                - O encapsulamento é um princípio da POO que envolve o agrupamento de dados e métodos relacionados em uma única unidade (a classe) e o controle do acesso a esses dados e métodos. Isso é geralmente alcançado usando os modificadores de acesso (`public`, `private`, `protected`).
+
+    - **Callable/Callback**
+        - 
